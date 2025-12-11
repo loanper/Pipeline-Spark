@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # --- ORDINATEUR 1 : LE CHEF (MASTER) ---
+  spark-master:
+    image: bitnami/spark:latest  # On télécharge une image Spark officielle prête à l'emploi
+    container_name: spark-master # Le petit nom de cet ordinateur
+    environment:
+      - SPARK_MODE=master        # On lui dit : "Toi, tu es le Chef"
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no # On désactive la sécurité complexe pour ce projet scolaire (plus simple)
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    ports:
+      - "8080:8080"              # IMPORTANT : Ça te permet de voir le tableau de bord Spark sur ton navigateur à l'adresse localhost:8080
+      - "7077:7077"              # C'est le port technique où le Chef écoute les ordres
+    volumes:
+      - ./src:/opt/bitnami/spark/src # On connecte ton dossier "src" local au dossier du conteneur. Si tu changes un fichier ici, il change là-bas.
+
+  # --- ORDINATEUR 2 : L'OUVRIER (WORKER) ---
+  spark-worker:
+    image: bitnami/spark:latest
+    container_name: spark-worker
+    environment:
+      - SPARK_MODE=worker        # On lui dit : "Toi, tu es l'Ouvrier"
+      - SPARK_MASTER_URL=spark://spark-master:7077 # On lui dit : "Ton chef se trouve à cette adresse"
+      - SPARK_WORKER_MEMORY=1G   # On lui donne 1 Go de RAM (ajuste si ton PC est faible)
+      - SPARK_WORKER_CORES=1     # On lui donne 1 processeur
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    depends_on:
+      - spark-master             # L'ouvrier ne démarre pas tant que le Chef n'est pas prêt
+    volumes:
+      - ./src:/opt/bitnami/spark/src # Lui aussi a accès à tes codes
