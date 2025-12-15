@@ -1,0 +1,18 @@
+# --- Fichiers de données ---
+*.csv
+*.parquet
+*.json
+/data/
+/src/dataset.csv
+
+# --- Fichiers temporaires Spark/Python ---
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# --- Fichiers systèmes ---
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log
