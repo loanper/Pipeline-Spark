@@ -1,0 +1,21 @@
+Weather_Condition,count,avg_severity
+Heavy Thunderstorms and Rain,2485,2.46
+Thunderstorms and Rain,2217,2.46
+Light Thunderstorms and Rain,4931,2.44
+Thunderstorm,4438,2.41
+Light Freezing Rain,3465,2.4
+Light Freezing Fog,1001,2.39
+Overcast,382866,2.39
+Scattered Clouds,204829,2.38
+Clear,808743,2.37
+Light Freezing Drizzle,1240,2.36
+Drizzle,4726,2.3
+Light Drizzle,22684,2.27
+Heavy Rain,32309,2.26
+Mist,3539,2.26
+Rain,84331,2.26
+Light Rain,352957,2.25
+Snow,15537,2.25
+Light Snow,128680,2.25
+Heavy Snow,5003,2.24
+Partly Cloudy,698972,2.22

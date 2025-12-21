@@ -4,36 +4,42 @@ services:
   spark-master:
     image: apache/spark:3.5.3
     container_name: spark-master
-    # COMMANDE EXPLICITE : On lance la classe Java du Master
+    #Launch of worker
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
     ports:
       - "8080:8080" # UI Web
-      - "7077:7077" # Port de communication interne
+      - "7077:7077" # Intern communication
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     volumes:
-      - ./src:/opt/spark/work-dir # Le dossier change (plus de /opt/bitnami)
+      - ./src:/opt/spark/work-dir #we link local storage to spark's storage
 
   spark-worker:
     image: apache/spark:3.5.3
     container_name: spark-worker
-    # COMMANDE EXPLICITE : On lance le Worker en lui donnant l'adresse du Master
+    # Worker launch with master's adress
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
-    depends_on:
+    depends_on: #we start it only if the master exists
       - spark-master
-    volumes:
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+    volumes: 
       - ./src:/opt/spark/work-dir
 
   minio:
     image: minio/minio
     container_name: minio
     ports:
-      - "9000:9000"        # Port API (pour Spark)
-      - "9001:9001"        # Port Console (pour toi)
+      - "9000:9000"        # API
+      - "9001:9001"        # Console
     environment:
-      MINIO_ROOT_USER: "admin"
-      MINIO_ROOT_PASSWORD: "password123"
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     command: server /data --console-address ":9001"
     volumes:
-      - minio_data:/data
+      - minio_data:/data #to avoid loss of data after we shut down the container
 
 volumes:
   minio_data:
