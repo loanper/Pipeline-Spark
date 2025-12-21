@@ -21,3 +21,19 @@ services:
       - spark-master
     volumes:
       - ./src:/opt/spark/work-dir
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"        # Port API (pour Spark)
+      - "9001:9001"        # Port Console (pour toi)
+    environment:
+      MINIO_ROOT_USER: "admin"
+      MINIO_ROOT_PASSWORD: "password123"
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+
+volumes:
+  minio_data:

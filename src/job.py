@@ -1,15 +1,19 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, avg
 
-spark = SparkSession.builder \
-    .appName("MonPremierJobSpark") \
+spark = SparkSession.builder.appName("US_Accidents_S3") \
+    .config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000") \
+    .config("spark.hadoop.fs.s3a.access.key", "admin") \
+    .config("spark.hadoop.fs.s3a.secret.key", "password123") \
+    .config("spark.hadoop.fs.s3a.path.style.access", "true") \
+    .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
     .getOrCreate()
 
 spark.sparkContext.setLogLevel("ERROR")
 
 
 try:
-    df = spark.read.option("header", "true").csv("/opt/spark/work-dir/dataset.csv")
+    df = spark.read.option("header", "true").option("inferSchema", "true").csv("s3a://accidents-data/dataset.csv")
     df.createOrReplaceTempView("accidents")
 
 
