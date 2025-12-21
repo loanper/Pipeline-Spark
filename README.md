@@ -74,7 +74,7 @@ The dataset was correctly uploaded and stored in our local object storage:
 
 ![MinIO Bucket Content](screenshots/MinIO.png)
 
-### 6.4 Outpul files 
+### 6.4 Output files 
 Below is the output file with the query result exported
 
 ![Output Results](screenshots/File_output.png)
