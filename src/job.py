@@ -12,6 +12,7 @@ try:
     df = spark.read.option("header", "true").csv("/opt/spark/work-dir/dataset.csv")
     df.createOrReplaceTempView("accidents")
 
+
     print("\n>>> Analyse 1 : Top 10 des États avec le plus d'accidents")
     query_states = """
         SELECT 
