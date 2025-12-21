@@ -4,6 +4,8 @@
 *.json
 /data/
 /src/dataset.csv
+/src/output_weather_analysis
+
 
 # --- Fichiers temporaires Spark/Python ---
 __pycache__/
