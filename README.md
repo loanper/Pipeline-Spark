@@ -1,4 +1,4 @@
-# US Accidents Analysis - Big Data Project
+# US Accidents Analysis - Big Data Project - Loan PERRARD & Quentin HEITZ GR03
 
 ## 1. Project Overview
 This project is about processing and analyzing a large dataset (7.7M rows) of US accidents. The main goal wasn't just to run some SQL queries, but to build a proper **Cloud-Native architecture** on our local machines. 
